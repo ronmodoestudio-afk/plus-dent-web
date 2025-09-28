@@ -63,6 +63,21 @@
         .whatsapp-float:hover {
             transform: scale(1.1);
         }
+
+        /* Estilos específicos para el carrusel de testimonios */
+        .testimonial-container {
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+        }
+        .testimonial-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera */
+        }
+        .testimonial-item {
+            flex: 0 0 100%; /* Cada slide ocupa el 100% del ancho del contenedor */
+            scroll-snap-align: center;
+        }
     </style>
 </head>
 <body class="bg-white font-sans text-text-dark">
@@ -128,11 +143,11 @@
 
                 <!-- Imagen Destacada (Placeholder) -->
                 <div class="lg:w-5/12">
-                    <!-- IMAGEN ACTUALIZADA: Usando un placeholder más estable y con alto contraste para asegurar visibilidad -->
-                    <img src="https://placehold.co/600x400/E0E7FF/1F2937?text=Consultorio+Plus+Dent" 
+                    <!-- IMAGEN ACTUALIZADA CON MAYOR CONTRASTE Y DESCRIPCIÓN CLARA -->
+                    <img src="https://placehold.co/600x400/364E68/FFFFFF?text=Consultorio+Dental+Moderno" 
                          alt="[Imagen de un consultorio dental moderno y limpio]" 
                          class="rounded-3xl shadow-2xl w-full h-auto object-cover transform hover:rotate-1 transition duration-500"
-                         onerror="this.onerror=null; this.src='https://placehold.co/600x400/E0E7FF/1F2937?text=Imagen+No+Disponible';"
+                         onerror="this.onerror=null; this.src='https://placehold.co/600x400/364E68/FFFFFF?text=Consultorio+Plus+Dent';"
                     >
                 </div>
             </div>
@@ -270,7 +285,7 @@
             </div>
         </section>
 
-        <!-- Sección 4: Testimonios -->
+        <!-- Sección 4: Testimonios (CARRUSEL FUNCIONAL) -->
         <section id="testimonios" class="py-20 bg-secondary-gray">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h2 class="text-4xl font-bold text-text-dark mb-4">Lo que Dicen Nuestros Pacientes</h2>
@@ -278,51 +293,132 @@
                     La mejor prueba de nuestro compromiso es la satisfacción de quienes confían en Plus Dent.
                 </p>
 
-                <!-- Grid de Testimonios -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    
-                    <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-primary-blue h-full flex flex-col justify-between">
-                        <div>
-                            <p class="text-gray-700 italic mb-4">"El blanqueamiento fue espectacular y el trato del personal es inigualable. Me sentí cómoda y los resultados superaron mis expectativas."</p>
-                            <div class="flex justify-center text-yellow-500 mb-2">
-                                <span class="icon" data-lucide="star" fill="currentColor" width="20" height="20"></span>
-                                <span class="icon" data-lucide="star" fill="currentColor" width="20" height="20"></span>
-                                <span class="icon" data-lucide="star" fill="currentColor" width="20" height="20"></span>
-                                <span class="icon" data-lucide="star" fill="currentColor" width="20" height="20"></span>
-                                <span class="icon" data-lucide="star" fill="currentColor" width="20" height="20"></span>
+                <div class="relative max-w-2xl mx-auto">
+                    <!-- Contenedor del Carrusel -->
+                    <div id="testimonial-carousel" class="testimonial-container flex overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-2xl shadow-2xl bg-white p-6">
+                        
+                        <!-- Testimonio 1 -->
+                        <div class="testimonial-item p-4">
+                            <img src="https://placehold.co/80x80/00A8E8/FFFFFF?text=M+F" 
+                                 alt="[Foto de María F.]" 
+                                 class="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/80x80/00A8E8/FFFFFF?text=M+F';"
+                            >
+                            <p class="text-gray-700 italic mb-4 text-lg">"El blanqueamiento fue espectacular y el trato del personal es inigualable. Me sentí cómoda y los resultados superaron mis expectativas."</p>
+                            <div class="flex justify-center text-yellow-500 mb-4">
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
                             </div>
+                            <p class="font-semibold text-text-dark text-xl">- María F., Cliente de Estética</p>
                         </div>
-                        <p class="font-semibold text-text-dark">- María F., Cliente de Estética</p>
-                    </div>
 
-                    <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-primary-blue h-full flex flex-col justify-between">
-                        <div>
-                            <p class="text-gray-700 italic mb-4">"Me solucionaron una urgencia dental el mismo día. La atención es profesional, rápida y con mucha empatía. ¡Recomendados 100%!"</p>
-                            <div class="flex justify-center text-yellow-500 mb-2">
-                                <span class="icon" data-lucide="star" fill="currentColor" width="20" height="20"></span>
-                                <span class="icon" data-lucide="star" fill="currentColor" width="20" height="20"></span>
-                                <span class="icon" data-lucide="star" fill="currentColor" width="20" height="20"></span>
-                                <span class="icon" data-lucide="star" fill="currentColor" width="20" height="20"></span>
-                                <span class="icon" data-lucide="star" fill="currentColor" width="20" height="20"></span>
+                        <!-- Testimonio 2 -->
+                        <div class="testimonial-item p-4">
+                            <img src="https://placehold.co/80x80/00A8E8/FFFFFF?text=C+R" 
+                                 alt="[Foto de Carlos R.]" 
+                                 class="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/80x80/00A8E8/FFFFFF?text=C+R';"
+                            >
+                            <p class="text-gray-700 italic mb-4 text-lg">"Me solucionaron una urgencia dental el mismo día. La atención es profesional, rápida y con mucha empatía. ¡Recomendados 100%!"</p>
+                            <div class="flex justify-center text-yellow-500 mb-4">
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
                             </div>
+                            <p class="font-semibold text-text-dark text-xl">- Carlos R., Paciente de Urgencias</p>
                         </div>
-                        <p class="font-semibold text-text-dark">- Carlos R., Paciente de Urgencias</p>
+
+                        <!-- Testimonio 3 -->
+                        <div class="testimonial-item p-4">
+                            <img src="https://placehold.co/80x80/00A8E8/FFFFFF?text=S+P" 
+                                 alt="[Foto de Sofía P.]" 
+                                 class="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/80x80/00A8E8/FFFFFF?text=S+P';"
+                            >
+                            <p class="text-gray-700 italic mb-4 text-lg">"Mi experiencia con los implantes fue excelente. El Dr. Ricardo es un experto y ahora puedo sonreír y comer con total confianza."</p>
+                            <div class="flex justify-center text-yellow-500 mb-4">
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                            </div>
+                            <p class="font-semibold text-text-dark text-xl">- Sofía P., Paciente de Implantes</p>
+                        </div>
+                        
+                        <!-- Testimonio 4 -->
+                        <div class="testimonial-item p-4">
+                            <img src="https://placehold.co/80x80/00A8E8/FFFFFF?text=J+L" 
+                                 alt="[Foto de Juan L.]" 
+                                 class="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/80x80/00A8E8/FFFFFF?text=J+L';"
+                            >
+                            <p class="text-gray-700 italic mb-4 text-lg">"La ortodoncia invisible fue la mejor decisión. El equipo me guió en cada paso y el resultado es increíblemente natural."</p>
+                            <div class="flex justify-center text-yellow-500 mb-4">
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                            </div>
+                            <p class="font-semibold text-text-dark text-xl">- Juan L., Paciente de Ortodoncia</p>
+                        </div>
+
+                        <!-- Testimonio 5 -->
+                        <div class="testimonial-item p-4">
+                            <img src="https://placehold.co/80x80/00A8E8/FFFFFF?text=A+G" 
+                                 alt="[Foto de Andrea G.]" 
+                                 class="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/80x80/00A8E8/FFFFFF?text=A+G';"
+                            >
+                            <p class="text-gray-700 italic mb-4 text-lg">"Llevé a mis hijos a la consulta familiar y la Dra. Ana tiene una paciencia y cariño inigualables. ¡Todos amamos ir al dentista ahora!"</p>
+                            <div class="flex justify-center text-yellow-500 mb-4">
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                            </div>
+                            <p class="font-semibold text-text-dark text-xl">- Andrea G., Paciente Familiar</p>
+                        </div>
+
+                        <!-- Testimonio 6 -->
+                        <div class="testimonial-item p-4">
+                            <img src="https://placehold.co/80x80/00A8E8/FFFFFF?text=R+M" 
+                                 alt="[Foto de Roberto M.]" 
+                                 class="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/80x80/00A8E8/FFFFFF?text=R+M';"
+                            >
+                            <p class="text-gray-700 italic mb-4 text-lg">"Desde la recepción hasta el final del tratamiento, todo fue de primer nivel. Instalaciones impecables y resultados duraderos."</p>
+                            <div class="flex justify-center text-yellow-500 mb-4">
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                                <span class="icon" data-lucide="star" fill="currentColor" width="24" height="24"></span>
+                            </div>
+                            <p class="font-semibold text-text-dark text-xl">- Roberto M., Paciente de Limpieza</p>
+                        </div>
+
                     </div>
                     
-                    <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-primary-blue h-full flex flex-col justify-between">
-                        <div>
-                            <p class="text-gray-700 italic mb-4">"Mi experiencia con los implantes fue excelente. El Dr. Ricardo es un experto y ahora puedo sonreír y comer con total confianza."</p>
-                            <div class="flex justify-center text-yellow-500 mb-2">
-                                <span class="icon" data-lucide="star" fill="currentColor" width="20" height="20"></span>
-                                <span class="icon" data-lucide="star" fill="currentColor" width="20" height="20"></span>
-                                <span class="icon" data-lucide="star" fill="currentColor" width="20" height="20"></span>
-                                <span class="icon" data-lucide="star" fill="currentColor" width="20" height="20"></span>
-                                <span class="icon" data-lucide="star" fill="currentColor" width="20" height="20"></span>
-                            </div>
-                        </div>
-                        <p class="font-semibold text-text-dark">- Sofía P., Paciente de Implantes</p>
-                    </div>
+                    <!-- Controles de Navegación -->
+                    <button id="prev-btn" onclick="scrollTestimonial(-1)" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white p-3 rounded-full shadow-lg transition duration-300 ml-4 hidden md:block" aria-label="Testimonio Anterior">
+                        <span class="icon text-primary-blue" data-lucide="chevron-left" width="24" height="24"></span>
+                    </button>
+                    <button id="next-btn" onclick="scrollTestimonial(1)" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white/70 hover:bg-white p-3 rounded-full shadow-lg transition duration-300 mr-4 hidden md:block" aria-label="Siguiente Testimonio">
+                        <span class="icon text-primary-blue" data-lucide="chevron-right" width="24" height="24"></span>
+                    </button>
 
+                    <!-- Indicadores de Posición -->
+                    <div id="dots-container" class="flex justify-center space-x-2 mt-6">
+                        <!-- Los puntos se generan con JavaScript -->
+                    </div>
                 </div>
             </div>
         </section>
@@ -461,15 +557,11 @@
         </div>
     </div>
     
-    <!-- El Modal de Explicación con IA fue eliminado -->
-
     <!-- Script de JavaScript para la interactividad -->
     <script>
         // Inicializar íconos de Lucide
         lucide.createIcons();
         
-        // Se removieron las constantes de API Key y URLs de Gemini.
-
         // 1. Funcionalidad del Menú Móvil
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -556,7 +648,87 @@
             setTimeout(() => formMessage.classList.add('hidden'), 3000);
         });
         
-        // Las funciones openExplanationModal, closeExplanationModal y generateExplanation fueron eliminadas.
+        // 4. Funcionalidad del Carrusel de Testimonios
+        const carousel = document.getElementById('testimonial-carousel');
+        const dotsContainer = document.getElementById('dots-container');
+        const items = carousel.querySelectorAll('.testimonial-item');
+        const totalItems = items.length;
+        let currentIndex = 0;
+
+        // Generar puntos indicadores
+        items.forEach((_, index) => {
+            const dot = document.createElement('button');
+            dot.classList.add('w-3', 'h-3', 'rounded-full', 'bg-gray-400', 'transition', 'duration-300', 'hover:bg-primary-blue');
+            dot.setAttribute('data-index', index);
+            dot.addEventListener('click', () => {
+                goToTestimonial(index);
+            });
+            dotsContainer.appendChild(dot);
+        });
+
+        function updateDots() {
+            dotsContainer.querySelectorAll('button').forEach((dot, index) => {
+                dot.classList.remove('bg-primary-blue');
+                dot.classList.add('bg-gray-400');
+                if (index === currentIndex) {
+                    dot.classList.remove('bg-gray-400');
+                    dot.classList.add('bg-primary-blue');
+                }
+            });
+        }
+
+        function goToTestimonial(index) {
+            if (index >= 0 && index < totalItems) {
+                currentIndex = index;
+                carousel.scrollLeft = items[currentIndex].offsetLeft;
+                updateDots();
+            }
+        }
+        
+        function scrollTestimonial(direction) {
+            let newIndex = currentIndex + direction;
+            if (newIndex >= totalItems) {
+                newIndex = 0; // Vuelve al inicio
+            } else if (newIndex < 0) {
+                newIndex = totalItems - 1; // Vuelve al final
+            }
+            goToTestimonial(newIndex);
+        }
+
+        // Inicializar el carrusel y los puntos
+        updateDots();
+        
+        // Actualizar el índice cuando el usuario desliza manualmente
+        carousel.addEventListener('scroll', () => {
+            const scrollLeft = carousel.scrollLeft;
+            const itemWidth = items[0].offsetWidth;
+            const newIndex = Math.round(scrollLeft / itemWidth);
+            if (newIndex !== currentIndex) {
+                currentIndex = newIndex;
+                updateDots();
+            }
+        });
+        
+        // Para que se vea correctamente en dispositivos móviles (la visibilidad de los botones < > es solo en desktop)
+        if (window.innerWidth < 768) {
+            document.getElementById('prev-btn').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+        } else {
+            document.getElementById('prev-btn').classList.remove('hidden');
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+        
+        // Re-evaluar la visibilidad de botones en resize (para móviles)
+        window.addEventListener('resize', () => {
+             if (window.innerWidth < 768) {
+                document.getElementById('prev-btn').classList.add('hidden');
+                document.getElementById('next-btn').classList.add('hidden');
+            } else {
+                document.getElementById('prev-btn').classList.remove('hidden');
+                document.getElementById('next-btn').classList.remove('hidden');
+            }
+        });
+
     </script>
 </body>
 </html>
