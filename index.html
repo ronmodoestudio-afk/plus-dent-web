@@ -536,10 +536,14 @@
         // Inicializar íconos de Lucide
         lucide.createIcons();
         
-        // Configuración de la API de Gemini (vacío para Canvas)
-        // PARA QUE FUNCIONE EN GITHUB PAGES/HOSTING EXTERNO, DEBE INSERTAR SU CLAVE DE API AQUI:
-        // const apiKey = "SU_CLAVE_AQUI"; 
-        const apiKey = ""; 
+        // ====================================================================================
+        // === ZONA CRÍTICA: CLAVE DE API ===
+        // PARA QUE FUNCIONE EN GITHUB PAGES/HOSTING EXTERNO, DEBES REEMPLAZAR EL VALOR VACÍO
+        // CON TU CLAVE DE API DE GOOGLE AI STUDIO REAL.
+        // En este entorno (Canvas), la clave se inyecta automáticamente si está vacía.
+        const apiKey = "AQUI_VA_TU_CLAVE_API"; 
+        // ====================================================================================
+        
         const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent";
         const IMAGEN_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict";
 
@@ -650,13 +654,22 @@
             spinner.classList.remove('hidden');
             explanationContent.innerHTML = '';
             
-            // *** VERIFICACIÓN DE API KEY PARA ENTORNOS EXTERNOS ***
-            if (!apiKey) {
+            // REVISA LA CLAVE DE API
+            const finalApiKey = apiKey === "AQUI_VA_TU_CLAVE_API" ? "" : apiKey;
+
+            if (!finalApiKey) {
                 spinner.classList.add('hidden');
-                explanationContent.innerHTML = '<p class="text-red-500 font-bold">¡Error de Configuración (API Key Faltante)!</p><p class="text-gray-700 mt-2">Para que esta función de IA trabaje en un servidor público (como GitHub Pages), debes reemplazar `const apiKey = "";` con tu clave personal de Google AI Studio. En este entorno de previsualización funciona, pero no fuera sin la clave.</p>';
-                return;
+                explanationContent.innerHTML = '<p class="text-red-500 font-bold">¡Error de Configuración (API Key Faltante)!</p><p class="text-gray-700 mt-2">Para que esta función de IA trabaje fuera de este entorno, **debes reemplazar el texto `AQUI_VA_TU_CLAVE_API`** en el código por tu clave real de Google AI Studio. En este entorno de previsualización (Canvas), la clave se inyectará automáticamente si está vacía para que puedas ver su funcionamiento.</p>';
+                
+                // Si estamos en el entorno Canvas y la clave es la placeholder, permitimos que continúe con una clave inyectada
+                if (window.location.host === 'sandbox.google.com') { // Check for Canvas environment proxy/hostname
+                    console.log("Canvas environment detected. Allowing empty/placeholder key for demonstration.");
+                } else {
+                    console.error("API Key is missing for external hosting.");
+                    return; // Detener si la clave falta en hosting externo
+                }
             }
-            // *** FIN DE VERIFICACIÓN ***
+            
 
             // System prompt para actuar como odontólogo amigable
             const systemPrompt = "Actúa como un odontólogo amigable y profesional. Tu objetivo es reducir la ansiedad del paciente. Explica el siguiente procedimiento dental en un tono tranquilizador, utilizando lenguaje sencillo y conciso, en un máximo de 50 palabras. NO uses emojis.";
@@ -671,13 +684,20 @@
             const MAX_RETRIES = 3;
             for (let i = 0; i < MAX_RETRIES; i++) {
                 try {
-                    const response = await fetch(`${GEMINI_API_URL}?key=${apiKey}`, {
+                    // Si estamos en Canvas, usamos la clave inyectada (si existe), si no, usamos la que el usuario puso.
+                    const fetchUrl = `${GEMINI_API_URL}?key=${finalApiKey}`;
+                    
+                    const response = await fetch(fetchUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
 
                     if (!response.ok) {
+                         // Mostrar error específico si es un error de autenticación (400)
+                        if (response.status === 400 && finalApiKey === "") {
+                            throw new Error("API_KEY_ERROR_EXTERNAL_HOSTING");
+                        }
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
 
@@ -689,14 +709,153 @@
                     return; // Éxito, salir del bucle
                 } catch (error) {
                     console.error(`Attempt ${i + 1} failed:`, error);
-                    if (i === MAX_RETRIES - 1) {
-                        spinner.classList.add('hidden');
-                        explanationContent.innerHTML = '<p class="text-red-500">Error al contactar con la IA. Por favor, revisa tu conexión o intenta más tarde.</p>';
+                    
+                    if (error.message === "API_KEY_ERROR_EXTERNAL_HOSTING" || i === MAX_RETRIES - 1) {
+                         spinner.classList.add('hidden');
+                         explanationContent.innerHTML = '<p class="text-red-500 font-bold">Fallo en la Conexión IA.</p><p class="text-gray-700 mt-2">Error: Clave de API no válida o ausente. Por favor, asegúrate de haber insertado tu clave de Google AI Studio correctamente en el código JavaScript de tu archivo hospedado.</p>';
+                         return;
                     }
+                    
                     // Espera exponencial antes de reintentar
                     await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
                 }
             }
         }
         
-        // 5. Funcionalidad
+        // 5. Funcionalidad del Simulador de Sonrisa IA (Imagen Generation)
+        const uploadImageInput = document.getElementById('upload-image');
+        const originalImagePreview = document.getElementById('original-image-preview');
+        const uploadPlaceholder = document.getElementById('upload-placeholder');
+        const simulationControls = document.getElementById('simulation-controls');
+        const simulateButton = document.getElementById('simulate-button');
+        const promptInput = document.getElementById('prompt-input');
+        const resultsArea = document.getElementById('results-area');
+        const simulationSpinner = document.getElementById('simulation-spinner');
+        const finalOriginalImage = document.getElementById('final-original-image');
+        const simulatedImage = document.getElementById('simulated-image');
+        const errorMessageIA = document.getElementById('error-message-ia');
+        
+        let base64Image = null;
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    originalImagePreview.src = e.target.result;
+                    originalImagePreview.classList.remove('hidden');
+                    uploadPlaceholder.classList.add('hidden');
+                    simulationControls.classList.remove('hidden');
+                    simulateButton.classList.remove('hidden');
+                    simulateButton.disabled = false;
+                    
+                    // Almacenar Base64 para la API (sin el prefijo 'data:image/...')
+                    base64Image = e.target.result.split(',')[1];
+                    errorMessageIA.classList.add('hidden');
+                };
+                reader.readAsDataURL(file);
+            } else {
+                originalImagePreview.classList.add('hidden');
+                uploadPlaceholder.classList.remove('hidden');
+                simulationControls.classList.add('hidden');
+                simulateButton.classList.add('hidden');
+                simulateButton.disabled = true;
+                base64Image = null;
+            }
+        }
+
+        async function startSimulation() {
+            if (!base64Image) {
+                errorMessageIA.textContent = "Por favor, sube una imagen de tu rostro primero.";
+                errorMessageIA.classList.remove('hidden');
+                return;
+            }
+
+            // Mostrar área de resultados y spinner
+            resultsArea.classList.remove('hidden');
+            simulationSpinner.classList.remove('hidden');
+            simulatedImage.classList.add('hidden');
+            errorMessageIA.classList.add('hidden');
+
+            const prompt = promptInput.value || "Sonrisa perfecta, dientes blancos y alineados con un aspecto natural y saludable.";
+            
+            // REVISA LA CLAVE DE API
+            const finalApiKey = apiKey === "AIzaSyCmwZcgxlaLRfycnpg_pWlNLN47H7EoKFY" ? "" : apiKey;
+
+             if (!finalApiKey) {
+                simulationSpinner.classList.add('hidden');
+                errorMessageIA.textContent = '¡Error de Configuración! Debes reemplazar el texto `AQUI_VA_TU_CLAVE_API` en el código por tu clave real de Google AI Studio para que funcione el simulador.';
+                errorMessageIA.classList.remove('hidden');
+                finalOriginalImage.src = originalImagePreview.src;
+                finalOriginalImage.classList.remove('hidden');
+                return;
+            }
+
+
+            // Carga la imagen original en el área de resultados
+            finalOriginalImage.src = originalImagePreview.src;
+            finalOriginalImage.classList.remove('hidden');
+            
+            // Preparamos el prompt para la IA de Imagen
+            const imagePrompt = `Realiza una transformación dental estética en este rostro. Modifica la sonrisa para que se vea: ${prompt}. Mantén la persona, el fondo y todos los demás detalles iguales, solo cambia la zona de la boca para mostrar el resultado del tratamiento.`;
+
+            const payload = {
+                instances: [{ prompt: imagePrompt }],
+                parameters: { 
+                    "sampleCount": 1,
+                    "image": {
+                        "bytesBase64Encoded": base64Image,
+                        "mimeType": "image/jpeg" // Asumimos jpeg/png, esto puede ser mejorado
+                    }
+                }
+            };
+            
+            const MAX_RETRIES = 3;
+            for (let i = 0; i < MAX_RETRIES; i++) {
+                try {
+                    const response = await fetch(`${IMAGEN_API_URL}?key=${finalApiKey}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                         // Mostrar error específico si es un error de autenticación (400)
+                        if (response.status === 400 && finalApiKey === "") {
+                            throw new Error("API_KEY_ERROR_EXTERNAL_HOSTING");
+                        }
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    const base64Data = result.predictions?.[0]?.bytesBase64Encoded;
+                    if (base64Data) {
+                        const imageUrl = `data:image/png;base64,${base64Data}`;
+                        simulatedImage.src = imageUrl;
+                        simulatedImage.classList.remove('hidden');
+                        simulationSpinner.classList.add('hidden');
+                        errorMessageIA.classList.add('hidden');
+                        return; // Éxito, salir
+                    } else {
+                        throw new Error("No se recibió imagen de la IA.");
+                    }
+
+                } catch (error) {
+                    console.error(`Attempt ${i + 1} failed:`, error);
+                    
+                    if (error.message === "API_KEY_ERROR_EXTERNAL_HOSTING" || i === MAX_RETRIES - 1) {
+                        simulationSpinner.classList.add('hidden');
+                        errorMessageIA.textContent = 'Fallo al generar la imagen. La clave de API es inválida o hay un problema de conectividad. Revisa tu consola para más detalles.';
+                        errorMessageIA.classList.remove('hidden');
+                        return;
+                    }
+                    
+                    // Espera exponencial antes de reintentar
+                    await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
+                }
+            }
+        }
+    </script>
+</body>
+</html>
