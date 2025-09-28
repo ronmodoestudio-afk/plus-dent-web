@@ -541,7 +541,7 @@
         // PARA QUE FUNCIONE EN GITHUB PAGES/HOSTING EXTERNO, DEBES REEMPLAZAR EL VALOR VACÍO
         // CON TU CLAVE DE API DE GOOGLE AI STUDIO REAL.
         // En este entorno (Canvas), la clave se inyecta automáticamente si está vacía.
-        const apiKey = "AQUI_VA_TU_CLAVE_API"; 
+        const apiKey = "AIzaSyCmwZcgxlaLRfycnpg_pWlNLN47H7EoKFY"; 
         // ====================================================================================
         
         const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent";
@@ -780,7 +780,7 @@
             const prompt = promptInput.value || "Sonrisa perfecta, dientes blancos y alineados con un aspecto natural y saludable.";
             
             // REVISA LA CLAVE DE API
-            const finalApiKey = apiKey === "AIzaSyCmwZcgxlaLRfycnpg_pWlNLN47H7EoKFY" ? "" : apiKey;
+            const finalApiKey = apiKey === "AQUI_VA_TU_CLAVE_API" ? "" : apiKey;
 
              if (!finalApiKey) {
                 simulationSpinner.classList.add('hidden');
