@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plus Dent - Consultorio Odontológico Moderno</title>
+    <!-- 1. Carga de la Fuente Poppins (Similar a Alan Sans) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
     <!-- Carga de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Configuración de color y fuente de Tailwind -->
@@ -18,7 +21,8 @@
                         'text-dark': '#333333',
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        // 2. Aplicando Poppins como fuente sans principal
+                        sans: ['Poppins', 'sans-serif'],
                     },
                 }
             }
@@ -75,7 +79,6 @@
             <div class="hidden md:flex space-x-8">
                 <a href="#inicio" class="text-lg text-text-dark hover:text-primary-blue transition duration-300">Inicio</a>
                 <a href="#servicios" class="text-lg text-text-dark hover:text-primary-blue transition duration-300">Servicios</a>
-                <a href="#simulador-ia" class="text-lg text-text-dark hover:text-primary-blue transition duration-300">Simulador IA</a>
                 <a href="#nosotros" class="text-lg text-text-dark hover:text-primary-blue transition duration-300">Nosotros</a>
                 <a href="#testimonios" class="text-lg text-text-dark hover:text-primary-blue transition duration-300">Testimonios</a>
                 <a href="#contacto" class="text-lg text-text-dark hover:text-primary-blue transition duration-300">Contacto</a>
@@ -96,7 +99,6 @@
         <div id="mobile-menu" class="hidden md:hidden bg-secondary-gray px-4 pt-2 pb-4 space-y-2">
             <a href="#inicio" class="block text-text-dark hover:text-primary-blue transition duration-300 py-2" onclick="closeMobileMenu()">Inicio</a>
             <a href="#servicios" class="block text-text-dark hover:text-primary-blue transition duration-300 py-2" onclick="closeMobileMenu()">Servicios</a>
-            <a href="#simulador-ia" class="block text-text-dark hover:text-primary-blue transition duration-300 py-2" onclick="closeMobileMenu()">Simulador IA</a>
             <a href="#nosotros" class="block text-text-dark hover:text-primary-blue transition duration-300 py-2" onclick="closeMobileMenu()">Nosotros</a>
             <a href="#testimonios" class="block text-text-dark hover:text-primary-blue transition duration-300 py-2" onclick="closeMobileMenu()">Testimonios</a>
             <a href="#contacto" class="block text-text-dark hover:text-primary-blue transition duration-300 py-2" onclick="closeMobileMenu()">Contacto</a>
@@ -126,10 +128,11 @@
 
                 <!-- Imagen Destacada (Placeholder) -->
                 <div class="lg:w-5/12">
-                    <img src="https://placehold.co/600x400/00A8E8/FFFFFF?text=Consultorio+Moderno" 
+                    <!-- IMAGEN ACTUALIZADA: Usando un placeholder más estable y con alto contraste para asegurar visibilidad -->
+                    <img src="https://placehold.co/600x400/E0E7FF/1F2937?text=Consultorio+Plus+Dent" 
                          alt="[Imagen de un consultorio dental moderno y limpio]" 
                          class="rounded-3xl shadow-2xl w-full h-auto object-cover transform hover:rotate-1 transition duration-500"
-                         onerror="this.onerror=null; this.src='https://placehold.co/600x400/00A8E8/FFFFFF?text=Plus+Dent+Bienvenida';"
+                         onerror="this.onerror=null; this.src='https://placehold.co/600x400/E0E7FF/1F2937?text=Imagen+No+Disponible';"
                     >
                 </div>
             </div>
@@ -143,132 +146,79 @@
                     Ofrecemos una gama completa de tratamientos para cuidar tu salud bucal en todas sus facetas.
                 </p>
 
-                <!-- Grid de Servicios -->
+                <!-- Grid de Servicios (Botones IA eliminados) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     
-                    <!-- Tarjeta de Servicio: Limpieza Dental Profesional (Con IA) -->
-                    <div class="bg-secondary-gray p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
-                        <span class="icon mx-auto mb-4 text-primary-blue" data-lucide="droplet" width="40" height="40"></span>
-                        <h3 class="text-2xl font-semibold mb-3">Limpieza Dental Profesional</h3>
-                        <p class="text-gray-600">Prevención y mantenimiento para una boca sana y fresca. ¡La base de todo!</p>
-                        <!-- BOTÓN CON INTEGRACIÓN GEMINI -->
-                        <button onclick="openExplanationModal('Limpieza Dental Profesional')" class="mt-4 bg-primary-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition duration-300 flex items-center justify-center mx-auto">
-                            Explicación con IA ✨
+                    <!-- Tarjeta de Servicio: Limpieza Dental Profesional -->
+                    <div class="bg-secondary-gray p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 flex flex-col justify-between">
+                        <div>
+                            <span class="icon mx-auto mb-4 text-primary-blue" data-lucide="droplet" width="40" height="40"></span>
+                            <h3 class="text-2xl font-semibold mb-3">Limpieza Dental Profesional</h3>
+                            <p class="text-gray-600">Prevención y mantenimiento para una boca sana y fresca. ¡La base de todo!</p>
+                        </div>
+                        <button onclick="openModal()" class="mt-4 bg-primary-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition duration-300 flex items-center justify-center mx-auto">
+                            Más Información / Agenda
                         </button>
                     </div>
 
-                    <!-- Tarjeta de Servicio: Ortodoncia Avanzada (Con IA) -->
-                    <div class="bg-secondary-gray p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
-                        <span class="icon mx-auto mb-4 text-primary-blue" data-lucide="braces" width="40" height="40"></span>
-                        <h3 class="text-2xl font-semibold mb-3">Ortodoncia Avanzada</h3>
-                        <p class="text-gray-600">Soluciones con alineadores invisibles y brackets tradicionales para una sonrisa perfecta.</p>
-                        <!-- BOTÓN CON INTEGRACIÓN GEMINI -->
-                        <button onclick="openExplanationModal('Ortodoncia Avanzada')" class="mt-4 bg-primary-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition duration-300 flex items-center justify-center mx-auto">
-                            Explicación con IA ✨
+                    <!-- Tarjeta de Servicio: Ortodoncia Avanzada -->
+                    <div class="bg-secondary-gray p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 flex flex-col justify-between">
+                        <div>
+                            <span class="icon mx-auto mb-4 text-primary-blue" data-lucide="braces" width="40" height="40"></span>
+                            <h3 class="text-2xl font-semibold mb-3">Ortodoncia Avanzada</h3>
+                            <p class="text-gray-600">Soluciones con alineadores invisibles y brackets tradicionales para una sonrisa perfecta.</p>
+                        </div>
+                         <button onclick="openModal()" class="mt-4 bg-primary-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition duration-300 flex items-center justify-center mx-auto">
+                            Más Información / Agenda
                         </button>
                     </div>
 
-                    <!-- Tarjeta de Servicio: Blanqueamiento Láser (Con IA) -->
-                    <div class="bg-secondary-gray p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
-                        <span class="icon mx-auto mb-4 text-primary-blue" data-lucide="sparkles" width="40" height="40"></span>
-                        <h3 class="text-2xl font-semibold mb-3">Blanqueamiento Láser</h3>
-                        <p class="text-gray-600">Resultados rápidos y duraderos para aclarar el tono de tus dientes de forma segura.</p>
-                        <!-- BOTÓN CON INTEGRACIÓN GEMINI -->
-                        <button onclick="openExplanationModal('Blanqueamiento Láser')" class="mt-4 bg-primary-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition duration-300 flex items-center justify-center mx-auto">
-                            Explicación con IA ✨
+                    <!-- Tarjeta de Servicio: Blanqueamiento Láser -->
+                    <div class="bg-secondary-gray p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 flex flex-col justify-between">
+                        <div>
+                            <span class="icon mx-auto mb-4 text-primary-blue" data-lucide="sparkles" width="40" height="40"></span>
+                            <h3 class="text-2xl font-semibold mb-3">Blanqueamiento Láser</h3>
+                            <p class="text-gray-600">Resultados rápidos y duraderos para aclarar el tono de tus dientes de forma segura.</p>
+                        </div>
+                         <button onclick="openModal()" class="mt-4 bg-primary-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition duration-300 flex items-center justify-center mx-auto">
+                            Más Información / Agenda
                         </button>
                     </div>
 
-                    <!-- Tarjeta de Servicio: Implantes Dentales (Con IA) -->
-                    <div class="bg-secondary-gray p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
-                        <span class="icon mx-auto mb-4 text-primary-blue" data-lucide="tooth" width="40" height="40"></span>
-                        <h3 class="text-2xl font-semibold mb-3">Implantes Dentales</h3>
-                        <p class="text-gray-600">Recupera la función y estética de tu boca con soluciones permanentes de alta calidad.</p>
-                        <!-- BOTÓN CON INTEGRACIÓN GEMINI -->
-                        <button onclick="openExplanationModal('Implantes Dentales')" class="mt-4 bg-primary-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition duration-300 flex items-center justify-center mx-auto">
-                            Explicación con IA ✨
+                    <!-- Tarjeta de Servicio: Implantes Dentales -->
+                    <div class="bg-secondary-gray p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 flex flex-col justify-between">
+                        <div>
+                            <span class="icon mx-auto mb-4 text-primary-blue" data-lucide="tooth" width="40" height="40"></span>
+                            <h3 class="text-2xl font-semibold mb-3">Implantes Dentales</h3>
+                            <p class="text-gray-600">Recupera la función y estética de tu boca con soluciones permanentes de alta calidad.</p>
+                        </div>
+                         <button onclick="openModal()" class="mt-4 bg-primary-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition duration-300 flex items-center justify-center mx-auto">
+                            Más Información / Agenda
                         </button>
                     </div>
                     
-                    <!-- Tarjeta de Servicio: Urgencias Odontológicas (Con IA) -->
-                    <div class="bg-secondary-gray p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
-                        <span class="icon mx-auto mb-4 text-primary-blue" data-lucide="alarm-check" width="40" height="40"></span>
-                        <h3 class="text-2xl font-semibold mb-3">Urgencias Odontológicas</h3>
-                        <p class="text-gray-600">Atención rápida y eficaz para aliviar el dolor y solucionar problemas inesperados.</p>
-                        <!-- BOTÓN CON INTEGRACIÓN GEMINI -->
-                        <button onclick="openExplanationModal('Urgencias Odontológicas')" class="mt-4 bg-primary-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition duration-300 flex items-center justify-center mx-auto">
-                            Explicación con IA ✨
+                    <!-- Tarjeta de Servicio: Urgencias Odontológicas -->
+                    <div class="bg-secondary-gray p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 flex flex-col justify-between">
+                        <div>
+                            <span class="icon mx-auto mb-4 text-primary-blue" data-lucide="alarm-check" width="40" height="40"></span>
+                            <h3 class="text-2xl font-semibold mb-3">Urgencias Odontológicas</h3>
+                            <p class="text-gray-600">Atención rápida y eficaz para aliviar el dolor y solucionar problemas inesperados.</p>
+                        </div>
+                         <button onclick="openModal()" class="mt-4 bg-primary-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition duration-300 flex items-center justify-center mx-auto">
+                            Más Información / Agenda
                         </button>
                     </div>
 
-                    <!-- Tarjeta de Servicio: Odontología Familiar (Con IA) -->
-                    <div class="bg-secondary-gray p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
-                        <span class="icon mx-auto mb-4 text-primary-blue" data-lucide="heart-handshake" width="40" height="40"></span>
-                        <h3 class="text-2xl font-semibold mb-3">Odontología Familiar</h3>
-                        <p class="text-gray-600">Cuidado dental para todas las edades, desde niños hasta adultos mayores.</p>
-                         <!-- BOTÓN CON INTEGRACIÓN GEMINI -->
-                         <button onclick="openExplanationModal('Odontología Familiar')" class="mt-4 bg-primary-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition duration-300 flex items-center justify-center mx-auto">
-                            Explicación con IA ✨
+                    <!-- Tarjeta de Servicio: Odontología Familiar -->
+                    <div class="bg-secondary-gray p-8 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 transform hover:-translate-y-1 flex flex-col justify-between">
+                        <div>
+                            <span class="icon mx-auto mb-4 text-primary-blue" data-lucide="heart-handshake" width="40" height="40"></span>
+                            <h3 class="text-2xl font-semibold mb-3">Odontología Familiar</h3>
+                            <p class="text-gray-600">Cuidado dental para todas las edades, desde niños hasta adultos mayores.</p>
+                        </div>
+                         <button onclick="openModal()" class="mt-4 bg-primary-blue text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition duration-300 flex items-center justify-center mx-auto">
+                            Más Información / Agenda
                         </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección 2.5: Simulador de Sonrisa IA -->
-        <section id="simulador-ia" class="py-20 bg-secondary-gray">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h2 class="text-4xl font-bold text-text-dark mb-4">Simulador de Sonrisa IA ✨</h2>
-                <p class="text-lg text-gray-600 mb-12 max-w-3xl mx-auto">
-                    Visualiza el potencial de tu nueva sonrisa. Sube una foto de tu rostro y nuestra IA te mostrará el resultado de un tratamiento estético.
-                </p>
-
-                <div class="max-w-4xl mx-auto bg-white p-8 rounded-2xl shadow-xl">
-                    <div id="image-upload-area" class="mb-6">
-                        <label for="upload-image" class="block text-xl font-semibold mb-3 text-primary-blue cursor-pointer">
-                            1. Sube tu Foto (¡Asegúrate que tus dientes sean visibles!)
-                        </label>
-                        <input type="file" id="upload-image" accept="image/*" class="hidden" onchange="previewImage(event)">
-                        
-                        <div id="upload-placeholder" class="border-2 border-dashed border-gray-300 p-8 rounded-lg cursor-pointer hover:border-primary-blue transition duration-300" onclick="document.getElementById('upload-image').click()">
-                            <span class="icon mx-auto mb-2 text-gray-400" data-lucide="image" width="30" height="30"></span>
-                            <p class="text-gray-500">Haz clic aquí para subir una imagen de tu rostro</p>
-                            <p class="text-sm text-gray-400 mt-1">(Máximo 4MB)</p>
-                        </div>
-                        
-                        <img id="original-image-preview" class="mt-4 hidden mx-auto rounded-lg max-h-64 object-contain w-full md:max-w-xs" alt="Tu Foto Original">
-                    </div>
-
-                    <div id="simulation-controls" class="mb-8 hidden">
-                        <label for="prompt-input" class="block text-xl font-semibold mb-3 text-primary-blue text-left">
-                            2. Describe tu Sonrisa Ideal (Opcional)
-                        </label>
-                        <input type="text" id="prompt-input" value="Sonrisa perfecta, dientes blancos y alineados con un aspecto natural y saludable." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-primary-blue focus:border-primary-blue" placeholder="Ej: Dientes alineados, más blancos, con carillas...">
-                    </div>
-
-                    <button id="simulate-button" onclick="startSimulation()" class="bg-primary-blue text-white px-8 py-3 text-lg font-bold rounded-xl shadow-lg hover:bg-blue-700 transition duration-300 hidden disabled:opacity-50" disabled>
-                        <span class="icon mr-2" data-lucide="sparkles"></span>
-                        3. Generar Simulación
-                    </button>
-
-                    <!-- Área de Resultados -->
-                    <div id="results-area" class="mt-12 hidden">
-                        <h3 class="text-2xl font-bold text-text-dark mb-6">Resultado de la Simulación</h3>
-                        <div id="simulation-spinner" class="flex flex-col items-center justify-center space-y-4 hidden h-40">
-                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-blue"></div>
-                            <span class="text-primary-blue font-medium">Creando tu nueva sonrisa... Esto puede tardar unos segundos.</span>
-                        </div>
-                        <div id="simulation-output" class="grid grid-cols-1 md:grid-cols-2 gap-6 text-center">
-                            <div>
-                                <h4 class="text-xl font-semibold mb-3 text-gray-700">Original</h4>
-                                <img id="final-original-image" class="mx-auto rounded-lg shadow-md max-h-80 object-contain w-full" alt="Imagen Original">
-                            </div>
-                            <div>
-                                <h4 class="text-xl font-semibold mb-3 text-primary-blue">Simulación IA</h4>
-                                <img id="simulated-image" class="mx-auto rounded-lg shadow-md max-h-80 object-contain w-full" alt="Simulación de Sonrisa">
-                            </div>
-                        </div>
-                        <p id="error-message-ia" class="mt-6 text-red-500 hidden font-medium"></p>
                     </div>
                 </div>
             </div>
@@ -511,41 +461,14 @@
         </div>
     </div>
     
-    <!-- Modal de Explicación con IA -->
-    <div id="explanation-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden items-center justify-center z-[998]">
-        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-lg m-4">
-            <div class="flex justify-between items-center mb-6 border-b pb-3">
-                <h3 id="explanation-title" class="text-3xl font-bold text-primary-blue"></h3>
-                <button onclick="closeExplanationModal()" class="text-gray-500 hover:text-red-500">
-                    <span class="icon" data-lucide="x" width="30" height="30"></span>
-                </button>
-            </div>
-            <div id="explanation-content" class="text-lg text-gray-700 min-h-20 flex flex-col justify-center text-center">
-                <!-- Loading spinner or content goes here -->
-                <div id="spinner" class="flex items-center justify-center space-x-2 hidden">
-                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-blue"></div>
-                    <span class="text-primary-blue">Generando explicación...</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- El Modal de Explicación con IA fue eliminado -->
 
     <!-- Script de JavaScript para la interactividad -->
     <script>
         // Inicializar íconos de Lucide
         lucide.createIcons();
         
-        // ====================================================================================
-        // === ZONA CRÍTICA: CLAVE DE API ===
-        // PARA QUE FUNCIONE EN GITHUB PAGES/HOSTING EXTERNO, DEBES REEMPLAZAR EL VALOR VACÍO
-        // CON TU CLAVE DE API DE GOOGLE AI STUDIO REAL.
-        // En este entorno (Canvas), la clave se inyecta automáticamente si está vacía.
-        const apiKey = "AIzaSyCmwZcgxlaLRfycnpg_pWlNLN47H7EoKFY"; 
-        // ====================================================================================
-        
-        const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent";
-        const IMAGEN_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict";
+        // Se removieron las constantes de API Key y URLs de Gemini.
 
         // 1. Funcionalidad del Menú Móvil
         const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -632,230 +555,8 @@
             // Ocultar mensaje después de 3 segundos
             setTimeout(() => formMessage.classList.add('hidden'), 3000);
         });
-
-        // 4. Funcionalidad del Modal de Explicación con IA (Gemini Integration - Text)
-        const explanationModal = document.getElementById('explanation-modal');
-        const explanationTitle = document.getElementById('explanation-title');
-        const explanationContent = document.getElementById('explanation-content');
-        const spinner = document.getElementById('spinner');
-
-        function openExplanationModal(serviceName) {
-            explanationTitle.textContent = serviceName;
-            explanationContent.innerHTML = '';
-            explanationModal.style.display = 'flex';
-            generateExplanation(serviceName);
-        }
-
-        function closeExplanationModal() {
-            explanationModal.style.display = 'none';
-        }
-
-        async function generateExplanation(serviceName) {
-            spinner.classList.remove('hidden');
-            explanationContent.innerHTML = '';
-            
-            // REVISA LA CLAVE DE API
-            const finalApiKey = apiKey === "AQUI_VA_TU_CLAVE_API" ? "" : apiKey;
-
-            if (!finalApiKey) {
-                spinner.classList.add('hidden');
-                explanationContent.innerHTML = '<p class="text-red-500 font-bold">¡Error de Configuración (API Key Faltante)!</p><p class="text-gray-700 mt-2">Para que esta función de IA trabaje fuera de este entorno, **debes reemplazar el texto `AQUI_VA_TU_CLAVE_API`** en el código por tu clave real de Google AI Studio. En este entorno de previsualización (Canvas), la clave se inyectará automáticamente si está vacía para que puedas ver su funcionamiento.</p>';
-                
-                // Si estamos en el entorno Canvas y la clave es la placeholder, permitimos que continúe con una clave inyectada
-                if (window.location.host === 'sandbox.google.com') { // Check for Canvas environment proxy/hostname
-                    console.log("Canvas environment detected. Allowing empty/placeholder key for demonstration.");
-                } else {
-                    console.error("API Key is missing for external hosting.");
-                    return; // Detener si la clave falta en hosting externo
-                }
-            }
-            
-
-            // System prompt para actuar como odontólogo amigable
-            const systemPrompt = "Actúa como un odontólogo amigable y profesional. Tu objetivo es reducir la ansiedad del paciente. Explica el siguiente procedimiento dental en un tono tranquilizador, utilizando lenguaje sencillo y conciso, en un máximo de 50 palabras. NO uses emojis.";
-            const userQuery = `Dime qué esperar del tratamiento de: ${serviceName}.`;
-
-            const payload = {
-                contents: [{ parts: [{ text: userQuery }] }],
-                systemInstruction: { parts: [{ text: systemPrompt }] },
-                tools: [{ "google_search": {} }], // Usar grounding para precisión
-            };
-            
-            const MAX_RETRIES = 3;
-            for (let i = 0; i < MAX_RETRIES; i++) {
-                try {
-                    // Si estamos en Canvas, usamos la clave inyectada (si existe), si no, usamos la que el usuario puso.
-                    const fetchUrl = `${GEMINI_API_URL}?key=${finalApiKey}`;
-                    
-                    const response = await fetch(fetchUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                         // Mostrar error específico si es un error de autenticación (400)
-                        if (response.status === 400 && finalApiKey === "") {
-                            throw new Error("API_KEY_ERROR_EXTERNAL_HOSTING");
-                        }
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const result = await response.json();
-                    const text = result.candidates?.[0]?.content?.parts?.[0]?.text || "No se pudo generar la explicación. Inténtalo de nuevo.";
-                    
-                    spinner.classList.add('hidden');
-                    explanationContent.innerHTML = `<p>${text}</p><p class="mt-4 text-sm italic text-gray-500">Recuerda: Esta explicación es informativa. Siempre consulta con nuestros profesionales para un diagnóstico personalizado.</p>`;
-                    return; // Éxito, salir del bucle
-                } catch (error) {
-                    console.error(`Attempt ${i + 1} failed:`, error);
-                    
-                    if (error.message === "API_KEY_ERROR_EXTERNAL_HOSTING" || i === MAX_RETRIES - 1) {
-                         spinner.classList.add('hidden');
-                         explanationContent.innerHTML = '<p class="text-red-500 font-bold">Fallo en la Conexión IA.</p><p class="text-gray-700 mt-2">Error: Clave de API no válida o ausente. Por favor, asegúrate de haber insertado tu clave de Google AI Studio correctamente en el código JavaScript de tu archivo hospedado.</p>';
-                         return;
-                    }
-                    
-                    // Espera exponencial antes de reintentar
-                    await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
-                }
-            }
-        }
         
-        // 5. Funcionalidad del Simulador de Sonrisa IA (Imagen Generation)
-        const uploadImageInput = document.getElementById('upload-image');
-        const originalImagePreview = document.getElementById('original-image-preview');
-        const uploadPlaceholder = document.getElementById('upload-placeholder');
-        const simulationControls = document.getElementById('simulation-controls');
-        const simulateButton = document.getElementById('simulate-button');
-        const promptInput = document.getElementById('prompt-input');
-        const resultsArea = document.getElementById('results-area');
-        const simulationSpinner = document.getElementById('simulation-spinner');
-        const finalOriginalImage = document.getElementById('final-original-image');
-        const simulatedImage = document.getElementById('simulated-image');
-        const errorMessageIA = document.getElementById('error-message-ia');
-        
-        let base64Image = null;
-
-        function previewImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    originalImagePreview.src = e.target.result;
-                    originalImagePreview.classList.remove('hidden');
-                    uploadPlaceholder.classList.add('hidden');
-                    simulationControls.classList.remove('hidden');
-                    simulateButton.classList.remove('hidden');
-                    simulateButton.disabled = false;
-                    
-                    // Almacenar Base64 para la API (sin el prefijo 'data:image/...')
-                    base64Image = e.target.result.split(',')[1];
-                    errorMessageIA.classList.add('hidden');
-                };
-                reader.readAsDataURL(file);
-            } else {
-                originalImagePreview.classList.add('hidden');
-                uploadPlaceholder.classList.remove('hidden');
-                simulationControls.classList.add('hidden');
-                simulateButton.classList.add('hidden');
-                simulateButton.disabled = true;
-                base64Image = null;
-            }
-        }
-
-        async function startSimulation() {
-            if (!base64Image) {
-                errorMessageIA.textContent = "Por favor, sube una imagen de tu rostro primero.";
-                errorMessageIA.classList.remove('hidden');
-                return;
-            }
-
-            // Mostrar área de resultados y spinner
-            resultsArea.classList.remove('hidden');
-            simulationSpinner.classList.remove('hidden');
-            simulatedImage.classList.add('hidden');
-            errorMessageIA.classList.add('hidden');
-
-            const prompt = promptInput.value || "Sonrisa perfecta, dientes blancos y alineados con un aspecto natural y saludable.";
-            
-            // REVISA LA CLAVE DE API
-            const finalApiKey = apiKey === "AQUI_VA_TU_CLAVE_API" ? "" : apiKey;
-
-             if (!finalApiKey) {
-                simulationSpinner.classList.add('hidden');
-                errorMessageIA.textContent = '¡Error de Configuración! Debes reemplazar el texto `AQUI_VA_TU_CLAVE_API` en el código por tu clave real de Google AI Studio para que funcione el simulador.';
-                errorMessageIA.classList.remove('hidden');
-                finalOriginalImage.src = originalImagePreview.src;
-                finalOriginalImage.classList.remove('hidden');
-                return;
-            }
-
-
-            // Carga la imagen original en el área de resultados
-            finalOriginalImage.src = originalImagePreview.src;
-            finalOriginalImage.classList.remove('hidden');
-            
-            // Preparamos el prompt para la IA de Imagen
-            const imagePrompt = `Realiza una transformación dental estética en este rostro. Modifica la sonrisa para que se vea: ${prompt}. Mantén la persona, el fondo y todos los demás detalles iguales, solo cambia la zona de la boca para mostrar el resultado del tratamiento.`;
-
-            const payload = {
-                instances: [{ prompt: imagePrompt }],
-                parameters: { 
-                    "sampleCount": 1,
-                    "image": {
-                        "bytesBase64Encoded": base64Image,
-                        "mimeType": "image/jpeg" // Asumimos jpeg/png, esto puede ser mejorado
-                    }
-                }
-            };
-            
-            const MAX_RETRIES = 3;
-            for (let i = 0; i < MAX_RETRIES; i++) {
-                try {
-                    const response = await fetch(`${IMAGEN_API_URL}?key=${finalApiKey}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                         // Mostrar error específico si es un error de autenticación (400)
-                        if (response.status === 400 && finalApiKey === "") {
-                            throw new Error("API_KEY_ERROR_EXTERNAL_HOSTING");
-                        }
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const result = await response.json();
-                    
-                    const base64Data = result.predictions?.[0]?.bytesBase64Encoded;
-                    if (base64Data) {
-                        const imageUrl = `data:image/png;base64,${base64Data}`;
-                        simulatedImage.src = imageUrl;
-                        simulatedImage.classList.remove('hidden');
-                        simulationSpinner.classList.add('hidden');
-                        errorMessageIA.classList.add('hidden');
-                        return; // Éxito, salir
-                    } else {
-                        throw new Error("No se recibió imagen de la IA.");
-                    }
-
-                } catch (error) {
-                    console.error(`Attempt ${i + 1} failed:`, error);
-                    
-                    if (error.message === "API_KEY_ERROR_EXTERNAL_HOSTING" || i === MAX_RETRIES - 1) {
-                        simulationSpinner.classList.add('hidden');
-                        errorMessageIA.textContent = 'Fallo al generar la imagen. La clave de API es inválida o hay un problema de conectividad. Revisa tu consola para más detalles.';
-                        errorMessageIA.classList.remove('hidden');
-                        return;
-                    }
-                    
-                    // Espera exponencial antes de reintentar
-                    await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
-                }
-            }
-        }
+        // Las funciones openExplanationModal, closeExplanationModal y generateExplanation fueron eliminadas.
     </script>
 </body>
 </html>
