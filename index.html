@@ -153,7 +153,7 @@
             </div>
         </section>
 
-        <!-- Sección 2: Servicios -->
+        <!-- Sección 2: Servicios (Fondo Blanco) -->
         <section id="servicios" class="py-20 bg-white">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h2 class="text-4xl font-bold text-text-dark mb-4">Nuestros Servicios Integrales</h2>
@@ -240,8 +240,8 @@
         </section>
 
 
-        <!-- Sección 3: Sobre Nosotros -->
-        <section id="nosotros" class="py-20 bg-white">
+        <!-- Sección 3: Sobre Nosotros (Fondo Gris - Separación Visual) -->
+        <section id="nosotros" class="py-20 bg-secondary-gray">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-4xl font-bold text-center text-text-dark mb-12">Conoce al Equipo Plus Dent</h2>
                 
@@ -259,7 +259,7 @@
 
                     <!-- Perfil del Equipo (Ejemplo) -->
                     <div class="lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <div class="bg-secondary-gray p-6 rounded-xl shadow-lg text-center">
+                        <div class="bg-white p-6 rounded-xl shadow-lg text-center">
                             <img src="https://placehold.co/100x100/94A3B8/FFFFFF?text=Dra+A" 
                                  alt="[Foto de la Doctora Ana García]" 
                                  class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
@@ -270,7 +270,7 @@
                             <p class="text-sm text-gray-600 mt-2">15 años de experiencia. Experta en diseño de sonrisa.</p>
                         </div>
 
-                        <div class="bg-secondary-gray p-6 rounded-xl shadow-lg text-center">
+                        <div class="bg-white p-6 rounded-xl shadow-lg text-center">
                             <img src="https://placehold.co/100x100/94A3B8/FFFFFF?text=Dr+B" 
                                  alt="[Foto del Doctor Ricardo Morales]" 
                                  class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
@@ -286,7 +286,7 @@
         </section>
 
         <!-- Sección 4: Testimonios (CARRUSEL FUNCIONAL) -->
-        <section id="testimonios" class="py-20 bg-secondary-gray">
+        <section id="testimonios" class="py-20 bg-white">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h2 class="text-4xl font-bold text-text-dark mb-4">Lo que Dicen Nuestros Pacientes</h2>
                 <p class="text-lg text-gray-600 mb-12 max-w-3xl mx-auto">
@@ -295,7 +295,7 @@
 
                 <div class="relative max-w-2xl mx-auto">
                     <!-- Contenedor del Carrusel -->
-                    <div id="testimonial-carousel" class="testimonial-container flex overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-2xl shadow-2xl bg-white p-6">
+                    <div id="testimonial-carousel" class="testimonial-container flex overflow-x-auto snap-x snap-mandatory scroll-smooth rounded-2xl shadow-2xl bg-secondary-gray p-6">
                         
                         <!-- Testimonio 1 -->
                         <div class="testimonial-item p-4">
@@ -436,7 +436,7 @@
             </div>
         </section>
 
-        <!-- Sección 6: Contacto -->
+        <!-- Sección 6: Contacto (Fondo Gris - Sigue el contraste) -->
         <section id="contacto" class="py-20 bg-secondary-gray">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <h2 class="text-4xl font-bold text-center text-text-dark mb-12">Hablemos de tu Salud Dental</h2>
@@ -680,7 +680,12 @@
         function goToTestimonial(index) {
             if (index >= 0 && index < totalItems) {
                 currentIndex = index;
-                carousel.scrollLeft = items[currentIndex].offsetLeft;
+                // Calcular el scroll para mover el carrusel
+                const scrollPosition = items[currentIndex].offsetLeft;
+                carousel.scrollTo({
+                    left: scrollPosition,
+                    behavior: 'smooth'
+                });
                 updateDots();
             }
         }
@@ -702,7 +707,10 @@
         carousel.addEventListener('scroll', () => {
             const scrollLeft = carousel.scrollLeft;
             const itemWidth = items[0].offsetWidth;
+            
+            // Calcular el índice actual basado en la posición de scroll
             const newIndex = Math.round(scrollLeft / itemWidth);
+            
             if (newIndex !== currentIndex) {
                 currentIndex = newIndex;
                 updateDots();
@@ -710,24 +718,21 @@
         });
         
         // Para que se vea correctamente en dispositivos móviles (la visibilidad de los botones < > es solo en desktop)
-        if (window.innerWidth < 768) {
-            document.getElementById('prev-btn').classList.add('hidden');
-            document.getElementById('next-btn').classList.add('hidden');
-        } else {
-            document.getElementById('prev-btn').classList.remove('hidden');
-            document.getElementById('next-btn').classList.remove('hidden');
-        }
-        
-        // Re-evaluar la visibilidad de botones en resize (para móviles)
-        window.addEventListener('resize', () => {
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        function toggleCarouselButtons() {
              if (window.innerWidth < 768) {
-                document.getElementById('prev-btn').classList.add('hidden');
-                document.getElementById('next-btn').classList.add('hidden');
+                prevBtn.classList.add('hidden');
+                nextBtn.classList.add('hidden');
             } else {
-                document.getElementById('prev-btn').classList.remove('hidden');
-                document.getElementById('next-btn').classList.remove('hidden');
+                prevBtn.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
             }
-        });
+        }
+
+        toggleCarouselButtons();
+        window.addEventListener('resize', toggleCarouselButtons);
 
     </script>
 </body>
