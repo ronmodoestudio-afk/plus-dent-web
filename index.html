@@ -537,6 +537,8 @@
         lucide.createIcons();
         
         // Configuración de la API de Gemini (vacío para Canvas)
+        // PARA QUE FUNCIONE EN GITHUB PAGES/HOSTING EXTERNO, DEBE INSERTAR SU CLAVE DE API AQUI:
+        // const apiKey = "SU_CLAVE_AQUI"; 
         const apiKey = ""; 
         const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent";
         const IMAGEN_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict";
@@ -648,6 +650,14 @@
             spinner.classList.remove('hidden');
             explanationContent.innerHTML = '';
             
+            // *** VERIFICACIÓN DE API KEY PARA ENTORNOS EXTERNOS ***
+            if (!apiKey) {
+                spinner.classList.add('hidden');
+                explanationContent.innerHTML = '<p class="text-red-500 font-bold">¡Error de Configuración (API Key Faltante)!</p><p class="text-gray-700 mt-2">Para que esta función de IA trabaje en un servidor público (como GitHub Pages), debes reemplazar `const apiKey = "";` con tu clave personal de Google AI Studio. En este entorno de previsualización funciona, pero no fuera sin la clave.</p>';
+                return;
+            }
+            // *** FIN DE VERIFICACIÓN ***
+
             // System prompt para actuar como odontólogo amigable
             const systemPrompt = "Actúa como un odontólogo amigable y profesional. Tu objetivo es reducir la ansiedad del paciente. Explica el siguiente procedimiento dental en un tono tranquilizador, utilizando lenguaje sencillo y conciso, en un máximo de 50 palabras. NO uses emojis.";
             const userQuery = `Dime qué esperar del tratamiento de: ${serviceName}.`;
@@ -689,141 +699,4 @@
             }
         }
         
-        // 5. Funcionalidad del Simulador de Sonrisa IA (Imagen Generation)
-        const uploadImageInput = document.getElementById('upload-image');
-        const originalImagePreview = document.getElementById('original-image-preview');
-        const uploadPlaceholder = document.getElementById('upload-placeholder');
-        const simulationControls = document.getElementById('simulation-controls');
-        const simulateButton = document.getElementById('simulate-button');
-        const promptInput = document.getElementById('prompt-input');
-        const resultsArea = document.getElementById('results-area');
-        const simulationSpinner = document.getElementById('simulation-spinner');
-        const simulatedImage = document.getElementById('simulated-image');
-        const finalOriginalImage = document.getElementById('final-original-image');
-        const errorMessageIA = document.getElementById('error-message-ia');
-
-        let base64Image = null;
-
-        function previewImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    // Display preview
-                    originalImagePreview.src = e.target.result;
-                    originalImagePreview.classList.remove('hidden');
-                    uploadPlaceholder.classList.add('hidden');
-                    
-                    // Store base64 data for API call (remove header "data:image/jpeg;base64,")
-                    base64Image = e.target.result.split(',')[1];
-                    
-                    // Show controls and button
-                    simulationControls.classList.remove('hidden');
-                    simulateButton.classList.remove('hidden');
-                    simulateButton.disabled = false;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        async function startSimulation() {
-            if (!base64Image) {
-                errorMessageIA.textContent = "Por favor, sube una imagen de tu rostro primero.";
-                errorMessageIA.classList.remove('hidden');
-                return;
-            }
-
-            // Hide previous results and error
-            resultsArea.classList.remove('hidden');
-            simulationOutput.classList.add('hidden');
-            errorMessageIA.classList.add('hidden');
-            simulationSpinner.classList.remove('hidden');
-            simulateButton.disabled = true;
-            simulateButton.textContent = "Generando...";
-
-            const userPrompt = promptInput.value || "Sonrisa perfecta, dientes blancos y alineados con un aspecto natural y saludable.";
-            
-            // Prompt de inpainting/edición para Imagen
-            const promptForImagen = `Retouch the teeth in the uploaded image to show a perfect, natural, white, and beautiful smile. Apply the dental aesthetic treatment. Maintain the person's face structure and features. Description: ${userPrompt}`;
-            
-            const payload = {
-                instances: [
-                    {
-                        prompt: promptForImagen,
-                        image: {
-                            bytesBase64Encoded: base64Image // Pass the image directly
-                        }
-                    }
-                ],
-                parameters: {
-                    sampleCount: 1,
-                    guidanceScale: 15, 
-                }
-            };
-            
-            const MAX_RETRIES = 3;
-            for (let i = 0; i < MAX_RETRIES; i++) {
-                try {
-                    const response = await fetch(`${IMAGEN_API_URL}?key=${apiKey}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        const errorBody = await response.json();
-                        throw new Error(`Error HTTP: ${response.status}. Detalle: ${errorBody.error?.message || response.statusText}`);
-                    }
-
-                    const result = await response.json();
-                    const base64Data = result.predictions?.[0]?.bytesBase64Encoded;
-
-                    if (base64Data) {
-                        const imageUrl = `data:image/png;base64,${base64Data}`;
-                        
-                        // Display results
-                        simulatedImage.src = imageUrl;
-                        finalOriginalImage.src = originalImagePreview.src; 
-                        
-                        simulationOutput.classList.remove('hidden');
-                        simulationSpinner.classList.add('hidden');
-                        simulateButton.textContent = "3. Generar Simulación";
-                        simulateButton.disabled = false;
-                        
-                    } else {
-                        throw new Error("La IA no generó una imagen. Intenta con una foto diferente.");
-                    }
-                    return; // Success, exit loop
-                } catch (error) {
-                    console.error(`Intento ${i + 1} fallido:`, error);
-                    if (i === MAX_RETRIES - 1) {
-                        simulationSpinner.classList.add('hidden');
-                        errorMessageIA.textContent = `Error al generar la imagen: ${error.message}. Asegúrate de que el rostro sea claro y los dientes sean visibles.`;
-                        errorMessageIA.classList.remove('hidden');
-                        simulateButton.textContent = "3. Generar Simulación";
-                        simulateButton.disabled = false;
-                    }
-                    // Exponential backoff
-                    await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000));
-                }
-            }
-        }
-        
-
-        // 6. Establecer la fecha mínima en el selector de citas (UX)
-        window.onload = function() {
-            const dateSelect = document.getElementById('date-select');
-            const today = new Date();
-            const tomorrow = new Date(today);
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            
-            // Formato YYYY-MM-DD
-            const minDate = tomorrow.toISOString().split('T')[0];
-            dateSelect.setAttribute('min', minDate);
-
-            // Crear íconos restantes para la página
-            lucide.createIcons();
-        };
-    </script>
-</body>
-</html>
+        // 5. Funcionalidad
